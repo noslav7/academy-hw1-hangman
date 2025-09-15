@@ -2,6 +2,9 @@
 !**/src/main/**
 !**/src/test/**
 
+# VS Code
+.vscode/
+
 ### Maven ###
 !.mvn/wrapper/maven-wrapper.jar
 target/
