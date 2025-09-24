@@ -94,7 +94,16 @@ public class HangmanGameEngine {
         while (true) {
             try {
                 System.out.print("Ваш выбор: ");
-                String input = scanner.nextLine().trim();
+                if (!scanner.hasNextLine()) {
+                    // EOF: по умолчанию выбираем случайную категорию
+                    return WordCategory.getRandom();
+                }
+                String input;
+                try {
+                    input = scanner.nextLine().trim();
+                } catch (java.util.NoSuchElementException eof) {
+                    return WordCategory.getRandom();
+                }
 
                 if (input.equals("0")) {
                     return WordCategory.getRandom();
@@ -127,7 +136,16 @@ public class HangmanGameEngine {
         while (true) {
             try {
                 System.out.print("Ваш выбор: ");
-                String input = scanner.nextLine().trim();
+                if (!scanner.hasNextLine()) {
+                    // EOF: по умолчанию выбираем случайную сложность
+                    return DifficultyLevel.getRandom();
+                }
+                String input;
+                try {
+                    input = scanner.nextLine().trim();
+                } catch (java.util.NoSuchElementException eof) {
+                    return DifficultyLevel.getRandom();
+                }
 
                 if (input.equals("0")) {
                     return DifficultyLevel.getRandom();
@@ -154,7 +172,16 @@ public class HangmanGameEngine {
             System.out.println(academy.view.HangmanVisualizer.getFullGameDisplay(currentSession));
 
             // Получение ввода от пользователя
-            String input = scanner.nextLine().trim();
+            if (!scanner.hasNextLine()) {
+                // EOF: выходим из игрового цикла без ошибки
+                break;
+            }
+            String input;
+            try {
+                input = scanner.nextLine().trim();
+            } catch (java.util.NoSuchElementException eof) {
+                break;
+            }
 
             // Обработка ввода
             if (!processUserInput(input)) {

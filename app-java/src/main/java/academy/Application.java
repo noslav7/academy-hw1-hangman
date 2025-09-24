@@ -1,18 +1,16 @@
 package academy;
 
-import static academy.AcceptanceTestExample.TEST_CASES_DUMMY;
-import static academy.AcceptanceTestExample.UNKNOWN_TEST_WORD;
 import static java.util.Objects.nonNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.Map;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import academy.engine.HangmanGameEngine;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -50,21 +48,20 @@ public class Application implements Runnable {
         AppConfig config = loadConfig();
         LOGGER.atInfo().addKeyValue("config", config).log("Config content");
 
-        // ... logic
-        if (IS_TESTING_MODE.test(config.words())) {
-            LOGGER.atInfo().log("Non-interactive testing mode enabled");
-            // Используй вызов движка игры вместо хардкода тестовых данных
-            var word = config.words()[0];
-            var userInput = config.words()[1];
-            var result = TEST_CASES_DUMMY.getOrDefault(word, UNKNOWN_TEST_WORD).stream()
-                    .filter(entry -> entry.getKey().test(userInput))
-                    .findAny()
-                    .map(Map.Entry::getValue)
-                    .map(Supplier::get)
-                    .orElse("Unknown answer");
-            System.out.println(result);
-        } else {
-            LOGGER.atInfo().log("Interactive mode enabled");
+        HangmanGameEngine engine = new HangmanGameEngine();
+        try {
+            if (IS_TESTING_MODE.test(config.words())) {
+                LOGGER.atInfo().log("Non-interactive testing mode enabled");
+                var word = config.words()[0];
+                var userInput = config.words()[1];
+                var result = engine.startTestGame(word, userInput);
+                System.out.println(result);
+            } else {
+                LOGGER.atInfo().log("Interactive mode enabled");
+                engine.startInteractiveGame();
+            }
+        } finally {
+            engine.close();
         }
     }
 

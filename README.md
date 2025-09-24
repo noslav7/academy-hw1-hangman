@@ -116,6 +116,34 @@
 При создании `Merge request` для сдачи ДЗ на проверку - воспользуйся [шаблоном](.gitlab/merge_request_templates/requirements.md)
 для заполнения описания MR: [как применить шаблон](doc/mr-template.png).
 
+# Запуск и кодировка консоли (UTF-8)
+
+Чтобы корректно отображались русские символы в выводе игры, запустите JVM и консоль в UTF‑8.
+
+- PowerShell (на время текущей сессии):
+```powershell
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
+[Console]::InputEncoding  = [System.Text.UTF8Encoding]::new()
+$env:JAVA_TOOL_OPTIONS = "-Dfile.encoding=UTF-8"
+
+# Пример запуска (тестовый режим)
+mvn --% -f app-java exec:java -Dexec.mainClass=academy.Application -Dexec.args="кот кот"
+
+# Альтернатива без JAVA_TOOL_OPTIONS
+mvn --% -f app-java exec:java -Dexec.mainClass=academy.Application -Dexec.jvmArgs="-Dfile.encoding=UTF-8" -Dexec.args="кот кот"
+```
+
+- cmd.exe:
+```bat
+chcp 65001
+mvn -f app-java exec:java -Dexec.mainClass=academy.Application -Dexec.jvmArgs="-Dfile.encoding=UTF-8" -Dexec.args="кот кот"
+```
+
+Интерактивный режим запускается без аргументов:
+```powershell
+mvn --% -f app-java exec:java -Dexec.mainClass=academy.Application
+```
+
 # Критерии оценки
 
 За базовое задание можно получить максимум 100 баллов.
