@@ -139,9 +139,10 @@ chcp 65001
 mvn -f app-java exec:java -Dexec.mainClass=academy.Application -Dexec.jvmArgs="-Dfile.encoding=UTF-8" -Dexec.args="кот кот"
 ```
 
-Интерактивный режим запускается без аргументов:
+Интерактивный режим запускается без аргументов (во избежание возможных проблем с кодировкой, перед запуском рекомендуется ввести следующую команду):
 ```powershell
-mvn --% -f app-java exec:java -Dexec.mainClass=academy.Application
+chcp 65001; [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8; [Console]::InputEncoding = [Text.UTF8Encoding]::UTF8
+mvn --% exec:java -Dexec.mainClass=academy.Application -Dfile.encoding=UTF-8
 ```
 
 # Критерии оценки
