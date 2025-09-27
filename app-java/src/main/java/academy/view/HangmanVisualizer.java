@@ -137,7 +137,28 @@ public class HangmanVisualizer {
      */
     public static String getSimpleGameState(GameSession session) {
         return session.getCurrentWordState() + ";" +
-                (session.getResult() == academy.model.GameResult.WIN ? "WIN"
-                        : session.getResult() == academy.model.GameResult.LOSE ? "LOSE" : "IN_PROGRESS");
+                (session.getResult() == academy.model.GameResult.WIN ? "POS"
+                        : session.getResult() == academy.model.GameResult.LOSE ? "NEG" : "IN_PROGRESS");
+    }
+
+    /**
+     * Получить результат тестового режима с правильным отображением угаданных букв
+     */
+    public static String getTestModeResult(String secretWord, String userInput, GameSession session) {
+        String secretLower = secretWord.toLowerCase();
+        String userLower = userInput.toLowerCase();
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < secretLower.length(); i++) {
+            if (i < userLower.length() && secretLower.charAt(i) == userLower.charAt(i)) {
+                result.append(secretLower.charAt(i));
+            } else {
+                result.append('*');
+            }
+        }
+
+        return result.toString() + ";" +
+                (session.getResult() == academy.model.GameResult.WIN ? "POS"
+                        : session.getResult() == academy.model.GameResult.LOSE ? "NEG" : "IN_PROGRESS");
     }
 }

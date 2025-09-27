@@ -52,7 +52,7 @@ public class HangmanGameEngine {
      * Запустить игру в тестовом режиме
      *
      * @param secretWord загаданное слово
-     * @param userInput  ввод пользователя (буквы)
+     * @param userInput  проверочное слово (результат угадывания)
      * @return результат в формате "угаданные_буквы;результат"
      */
     public String startTestGame(String secretWord, String userInput) {
@@ -69,15 +69,26 @@ public class HangmanGameEngine {
         DifficultyLevel difficulty = DifficultyLevel.getRandom();
         currentSession = new GameSession(secretWord, difficulty, category);
 
-        // Обработка ввода пользователя посимвольно
-        for (char letter : userInput.toCharArray()) {
-            if (Character.isLetter(letter)) {
-                currentSession.guessLetter(letter);
+        // Сравнение загаданного слова с проверочным словом
+        String secretLower = secretWord.toLowerCase();
+        String userLower = userInput.toLowerCase();
+
+        // Определяем, какие буквы угаданы правильно (по позициям)
+        for (int i = 0; i < Math.min(secretLower.length(), userLower.length()); i++) {
+            if (secretLower.charAt(i) == userLower.charAt(i)) {
+                currentSession.guessLetter(secretLower.charAt(i));
             }
         }
 
+        // Определяем результат игры
+        if (secretLower.equals(userLower)) {
+            currentSession.setResult(academy.model.GameResult.WIN);
+        } else {
+            currentSession.setResult(academy.model.GameResult.LOSE);
+        }
+
         // Возврат результата
-        return academy.view.HangmanVisualizer.getSimpleGameState(currentSession);
+        return academy.view.HangmanVisualizer.getTestModeResult(secretWord, userInput, currentSession);
     }
 
     /**
