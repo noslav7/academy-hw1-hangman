@@ -5,17 +5,17 @@ import static java.util.Objects.nonNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
 import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import academy.engine.HangmanGameEngine;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import academy.engine.HangmanGameEngine;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -39,6 +39,19 @@ public class Application implements Runnable {
     private File configPath;
 
     public static void main(String[] args) {
+        // Set UTF-8 encoding for console output
+        System.setProperty("file.encoding", "UTF-8");
+        System.setProperty("console.encoding", "UTF-8");
+
+        // Force UTF-8 charset for System.out and System.err
+        try {
+            System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
+            System.setErr(new java.io.PrintStream(System.err, true, "UTF-8"));
+        } catch (java.io.UnsupportedEncodingException e) {
+            // Fallback if UTF-8 is not supported
+            System.err.println("UTF-8 encoding not supported, using default encoding: " + Charset.defaultCharset());
+        }
+
         int exitCode = new CommandLine(new Application()).execute(args);
         System.exit(exitCode);
     }

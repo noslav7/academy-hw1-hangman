@@ -105,7 +105,17 @@ public class HangmanVisualizer {
         display.append("Категория: ").append(session.getCategory().getDisplayName()).append("\n");
         display.append("Сложность: ").append(session.getDifficulty().getDisplayName()).append("\n");
         display.append("Попыток: ").append(session.getCurrentAttempts())
-                .append("/").append(session.getMaxAttempts()).append("\n\n");
+                .append("/").append(session.getMaxAttempts()).append("\n");
+
+        // Информация о подсказке
+        if (session.getHint() != null && !session.getHint().isEmpty()) {
+            if (session.isHintUsed()) {
+                display.append("Подсказка: ").append(session.getHint()).append(" (использована)\n");
+            } else {
+                display.append("Подсказка доступна (введите 'подсказка' или '?')\n");
+            }
+        }
+        display.append("\n");
 
         // Виселица
         display.append(getHangmanVisualization(session)).append("\n");
@@ -126,7 +136,7 @@ public class HangmanVisualizer {
                 display.append("Загаданное слово: ").append(session.getSecretWord()).append("\n");
             }
         } else {
-            display.append("Введите букву: ");
+            display.append("Введите букву или 'подсказка' (или '?'): ");
         }
 
         return display.toString();

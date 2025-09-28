@@ -8,6 +8,7 @@ import java.util.Set;
  */
 public class GameSession {
     private final String secretWord;
+    private final String hint;
     private final DifficultyLevel difficulty;
     private final WordCategory category;
     private final int maxAttempts;
@@ -15,9 +16,11 @@ public class GameSession {
     private final Set<Character> guessedLetters;
     private final Set<Character> wrongLetters;
     private GameResult result;
+    private boolean hintUsed;
 
     public GameSession(String secretWord, DifficultyLevel difficulty, WordCategory category) {
         this.secretWord = secretWord.toLowerCase();
+        this.hint = category.getHintForWord(secretWord);
         this.difficulty = difficulty;
         this.category = category;
         this.maxAttempts = difficulty.getMaxAttempts();
@@ -25,10 +28,36 @@ public class GameSession {
         this.guessedLetters = new HashSet<>();
         this.wrongLetters = new HashSet<>();
         this.result = GameResult.IN_PROGRESS;
+        this.hintUsed = false;
+    }
+
+    public GameSession(String secretWord, String hint, DifficultyLevel difficulty, WordCategory category) {
+        this.secretWord = secretWord.toLowerCase();
+        this.hint = hint;
+        this.difficulty = difficulty;
+        this.category = category;
+        this.maxAttempts = difficulty.getMaxAttempts();
+        this.currentAttempts = 0;
+        this.guessedLetters = new HashSet<>();
+        this.wrongLetters = new HashSet<>();
+        this.result = GameResult.IN_PROGRESS;
+        this.hintUsed = false;
     }
 
     public String getSecretWord() {
         return secretWord;
+    }
+
+    public String getHint() {
+        return hint;
+    }
+
+    public boolean isHintUsed() {
+        return hintUsed;
+    }
+
+    public void useHint() {
+        this.hintUsed = true;
     }
 
     public DifficultyLevel getDifficulty() {

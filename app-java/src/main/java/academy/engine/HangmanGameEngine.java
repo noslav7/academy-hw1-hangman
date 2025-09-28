@@ -5,6 +5,7 @@ import java.util.Scanner;
 import academy.model.DifficultyLevel;
 import academy.model.GameSession;
 import academy.model.WordCategory;
+import academy.model.WordWithHint;
 
 /**
  * Игровой движок для игры "Виселица"
@@ -41,8 +42,8 @@ public class HangmanGameEngine {
         DifficultyLevel difficulty = selectDifficulty();
 
         // Создание игровой сессии
-        String secretWord = category.getRandomWord();
-        currentSession = new GameSession(secretWord, difficulty, category);
+        WordWithHint wordWithHint = category.getRandomWordWithHint();
+        currentSession = new GameSession(wordWithHint.getWord(), wordWithHint.getHint(), difficulty, category);
 
         // Основной игровой цикл
         playGame();
@@ -217,18 +218,30 @@ public class HangmanGameEngine {
      */
     private boolean processUserInput(String input) {
         if (input.isEmpty()) {
-            System.out.println("Пожалуйста, введите букву");
+            System.out.println("Пожалуйста, введите букву или команду");
             return false;
         }
 
+        // Обработка команды подсказки
+        if (input.equalsIgnoreCase("подсказка") || input.equalsIgnoreCase("hint") || input.equals("?")) {
+            if (!currentSession.isHintUsed()) {
+                System.out.println("Подсказка: " + currentSession.getHint());
+                currentSession.useHint();
+                return true;
+            } else {
+                System.out.println("Подсказка уже была использована!");
+                return false;
+            }
+        }
+
         if (input.length() > 1) {
-            System.out.println("Пожалуйста, введите только одну букву");
+            System.out.println("Пожалуйста, введите только одну букву или команду 'подсказка'");
             return false;
         }
 
         char letter = input.charAt(0);
         if (!Character.isLetter(letter)) {
-            System.out.println("Пожалуйста, введите букву");
+            System.out.println("Пожалуйста, введите букву или команду 'подсказка'");
             return false;
         }
 
