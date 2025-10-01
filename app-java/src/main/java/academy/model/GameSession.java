@@ -1,6 +1,6 @@
 package academy.model;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -25,8 +25,8 @@ public class GameSession {
         this.category = category;
         this.maxAttempts = difficulty.getMaxAttempts();
         this.currentAttempts = 0;
-        this.guessedLetters = new HashSet<>();
-        this.wrongLetters = new HashSet<>();
+        this.guessedLetters = new LinkedHashSet<>();
+        this.wrongLetters = new LinkedHashSet<>();
         this.result = GameResult.IN_PROGRESS;
         this.hintUsed = false;
     }
@@ -38,8 +38,8 @@ public class GameSession {
         this.category = category;
         this.maxAttempts = difficulty.getMaxAttempts();
         this.currentAttempts = 0;
-        this.guessedLetters = new HashSet<>();
-        this.wrongLetters = new HashSet<>();
+        this.guessedLetters = new LinkedHashSet<>();
+        this.wrongLetters = new LinkedHashSet<>();
         this.result = GameResult.IN_PROGRESS;
         this.hintUsed = false;
     }
@@ -164,7 +164,9 @@ public class GameSession {
      * Получить все использованные буквы (правильные и неправильные)
      */
     public Set<Character> getAllUsedLetters() {
-        Set<Character> allUsed = new HashSet<>(guessedLetters);
+        Set<Character> allUsed = new LinkedHashSet<>();
+        // Preserve insertion order: guessed letters first, then wrong letters
+        allUsed.addAll(guessedLetters);
         allUsed.addAll(wrongLetters);
         return allUsed;
     }

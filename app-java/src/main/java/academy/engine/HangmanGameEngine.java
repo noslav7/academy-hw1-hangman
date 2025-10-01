@@ -65,27 +65,26 @@ public class HangmanGameEngine {
             userInput = "";
         }
 
-        // Создание игровой сессии с случайными параметрами
+        // Создание игровой сессии со случайными параметрами
         WordCategory category = WordCategory.getRandom();
         DifficultyLevel difficulty = DifficultyLevel.getRandom();
         currentSession = new GameSession(secretWord, difficulty, category);
 
-        // Сравнение загаданного слова с проверочным словом
-        String secretLower = secretWord.toLowerCase();
+        // Учитываем каждую букву из ввода пользователя (без учета регистра)
         String userLower = userInput.toLowerCase();
-
-        // Определяем, какие буквы угаданы правильно (по позициям)
-        for (int i = 0; i < Math.min(secretLower.length(), userLower.length()); i++) {
-            if (secretLower.charAt(i) == userLower.charAt(i)) {
-                currentSession.guessLetter(secretLower.charAt(i));
+        for (int i = 0; i < userLower.length(); i++) {
+            char c = userLower.charAt(i);
+            if (Character.isLetter(c)) {
+                currentSession.guessLetter(c);
             }
         }
 
-        // Определяем результат игры
-        if (secretLower.equals(userLower)) {
+        // Определяем результат игры: победа, если угаданы все буквы, иначе игра
+        // продолжается
+        if (currentSession.isWordGuessed()) {
             currentSession.setResult(academy.model.GameResult.WIN);
         } else {
-            currentSession.setResult(academy.model.GameResult.LOSE);
+            currentSession.setResult(academy.model.GameResult.IN_PROGRESS);
         }
 
         // Возврат результата

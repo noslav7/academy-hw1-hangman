@@ -136,7 +136,7 @@ public class HangmanVisualizer {
                 display.append("Загаданное слово: ").append(session.getSecretWord()).append("\n");
             }
         } else {
-            display.append("Введите букву или 'подсказка' (или '?'): ");
+            display.append("Введите букву: ");
         }
 
         return display.toString();
@@ -146,29 +146,33 @@ public class HangmanVisualizer {
      * Получить простое отображение состояния игры (для тестового режима)
      */
     public static String getSimpleGameState(GameSession session) {
-        return session.getCurrentWordState() + ";" +
-                (session.getResult() == academy.model.GameResult.WIN ? "POS"
-                        : session.getResult() == academy.model.GameResult.LOSE ? "NEG" : "IN_PROGRESS");
+        String status;
+        if (session.getResult() == academy.model.GameResult.WIN) {
+            status = "WIN";
+        } else if (session.getResult() == academy.model.GameResult.LOSE) {
+            status = "LOSE";
+        } else {
+            status = "IN_PROGRESS";
+        }
+        return session.getCurrentWordState() + ";" + status;
     }
 
     /**
      * Получить результат тестового режима с правильным отображением угаданных букв
      */
     public static String getTestModeResult(String secretWord, String userInput, GameSession session) {
-        String secretLower = secretWord.toLowerCase();
-        String userLower = userInput.toLowerCase();
+        // Маска строится по текущему состоянию слова в сессии
+        String masked = session.getCurrentWordState();
 
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < secretLower.length(); i++) {
-            if (i < userLower.length() && secretLower.charAt(i) == userLower.charAt(i)) {
-                result.append(secretLower.charAt(i));
-            } else {
-                result.append('*');
-            }
+        String status;
+        if (session.getResult() == academy.model.GameResult.WIN) {
+            status = "WIN";
+        } else if (session.getResult() == academy.model.GameResult.LOSE) {
+            status = "NEG";
+        } else {
+            status = "IN_PROGRESS";
         }
 
-        return result.toString() + ";" +
-                (session.getResult() == academy.model.GameResult.WIN ? "POS"
-                        : session.getResult() == academy.model.GameResult.LOSE ? "NEG" : "IN_PROGRESS");
+        return masked + ";" + status;
     }
 }
