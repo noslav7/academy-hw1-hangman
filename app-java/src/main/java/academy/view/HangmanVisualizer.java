@@ -161,29 +161,8 @@ public class HangmanVisualizer {
      * Получить результат тестового режима с правильным отображением угаданных букв
      */
     public static String getTestModeResult(String secretWord, String userInput, GameSession session) {
-        // В тестовом режиме маска строится по посимвольному сравнению
-        // secretWord и userInput: совпало по индексу — показываем букву, иначе '*'
-        String s = secretWord == null ? "" : secretWord;
-        String u = userInput == null ? "" : userInput;
-        String sLower = s.toLowerCase();
-        String uLower = u.toLowerCase();
-
-        StringBuilder maskedBuilder = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char secretCh = s.charAt(i);
-            char secretLower = sLower.charAt(i);
-            if (i < uLower.length()) {
-                char userCh = uLower.charAt(i);
-                if (userCh == secretLower) {
-                    maskedBuilder.append(secretCh);
-                } else {
-                    maskedBuilder.append('*');
-                }
-            } else {
-                maskedBuilder.append('*');
-            }
-        }
-        String masked = maskedBuilder.toString();
+        // Для юнит-тестов используем текущее состояние слова из сессии
+        String masked = session.getCurrentWordState();
 
         String status;
         if (session.getResult() == academy.model.GameResult.WIN) {

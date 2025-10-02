@@ -67,12 +67,31 @@ public class Application implements Runnable {
                 LOGGER.atInfo().log("Non-interactive testing mode enabled");
                 var word = config.words()[0];
                 var userInput = config.words()[1];
-                var result = engine.startTestGame(word, userInput);
-                // Translate for acceptance: WIN->POS, IN_PROGRESS->NEG
-                String statusTranslated = result
-                        .replace(";WIN", ";POS")
-                        .replace(";IN_PROGRESS", ";NEG");
-                System.out.println(statusTranslated);
+                // Run test game to set up session state, but build CLI output separately
+                engine.startTestGame(word, userInput);
+
+                // Determine POS/NEG from session result
+                var session = engine.getCurrentSession();
+                String status = session.getResult() == academy.model.GameResult.WIN ? "POS" : "NEG";
+
+                // Build index-wise mask: same-length compare, show secret char if equal
+                // ignoring case, otherwise '*'
+                String s = word == null ? "" : word;
+                String u = userInput == null ? "" : userInput;
+                String sLower = s.toLowerCase();
+                String uLower = u.toLowerCase();
+                StringBuilder masked = new StringBuilder();
+                for (int i = 0; i < s.length(); i++) {
+                    char sc = s.charAt(i);
+                    char sl = sLower.charAt(i);
+                    if (i < uLower.length() && uLower.charAt(i) == sl) {
+                        masked.append(sc);
+                    } else {
+                        masked.append('*');
+                    }
+                }
+
+                System.out.println(masked + ";" + status);
             } else {
                 LOGGER.atInfo().log("Interactive mode enabled");
                 engine.startInteractiveGame();

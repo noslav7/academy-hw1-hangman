@@ -38,8 +38,8 @@ public class HangmanGameEngine {
         // Выбор категории
         WordCategory category = selectCategory();
 
-        // Выбор сложности
-        DifficultyLevel difficulty = selectDifficulty();
+        // Выбор сложности (через отдельный селектор)
+        DifficultyLevel difficulty = new DifficultySelector(scanner).selectDifficulty();
 
         // Создание игровой сессии
         WordWithHint wordWithHint = category.getRandomWordWithHint();
@@ -125,48 +125,6 @@ public class HangmanGameEngine {
                     return categories[choice - 1];
                 } else {
                     System.out.println("Пожалуйста, выберите число от 0 до " + categories.length);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Пожалуйста, введите число");
-            }
-        }
-    }
-
-    /**
-     * Выбор уровня сложности
-     */
-    private DifficultyLevel selectDifficulty() {
-        DifficultyLevel[] difficulties = DifficultyLevel.values();
-        System.out.println("\nВыберите уровень сложности:");
-        for (int i = 0; i < difficulties.length; i++) {
-            System.out.println((i + 1) + ". " + difficulties[i].getDisplayName() +
-                    " (" + difficulties[i].getMaxAttempts() + " попыток)");
-        }
-        System.out.println("0. Случайная сложность");
-
-        while (true) {
-            try {
-                System.out.print("Ваш выбор: ");
-                if (!scanner.hasNextLine()) {
-                    // EOF: по умолчанию выбираем случайную сложность
-                    return DifficultyLevel.getRandom();
-                }
-                String input;
-                try {
-                    input = scanner.nextLine().trim();
-                } catch (java.util.NoSuchElementException eof) {
-                    return DifficultyLevel.getRandom();
-                }
-
-                if (input.equals("0")) {
-                    return DifficultyLevel.getRandom();
-                }
-
-                int choice = Integer.parseInt(input);
-                if (choice >= 1 && choice <= difficulties.length) {
-                    return difficulties[choice - 1];
-                } else {
-                    System.out.println("Пожалуйста, выберите число от 0 до " + difficulties.length);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Пожалуйста, введите число");
