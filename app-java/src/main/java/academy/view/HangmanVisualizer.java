@@ -1,5 +1,9 @@
 package academy.view;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 import academy.model.GameSession;
@@ -9,77 +13,94 @@ import academy.model.GameSession;
  */
 public class HangmanVisualizer {
 
-    private static final List<String> HANGMAN_STAGES = List.of(
-            // 0 попыток - пустая виселица
-            """
-                        +---+
-                        |   |
-                            |
-                            |
-                            |
-                            |
-                        =========
-                    """,
-            // 1 попытка - голова
-            """
-                        +---+
-                        |   |
-                        O   |
-                            |
-                            |
-                            |
-                        =========
-                    """,
-            // 2 попытки - голова + тело
-            """
-                        +---+
-                        |   |
-                        O   |
-                        |   |
-                            |
-                            |
-                        =========
-                    """,
-            // 3 попытки - голова + тело + левая рука
-            """
-                        +---+
-                        |   |
-                        O   |
-                       /|   |
-                            |
-                            |
-                        =========
-                    """,
-            // 4 попытки - голова + тело + обе руки
-            """
-                        +---+
-                        |   |
-                        O   |
-                       /|\\  |
-                            |
-                            |
-                        =========
-                    """,
-            // 5 попыток - голова + тело + руки + левая нога
-            """
-                        +---+
-                        |   |
-                        O   |
-                       /|\\  |
-                       /    |
-                            |
-                        =========
-                    """,
-            // 6 попыток - полная фигура (поражение)
-            """
-                        +---+
-                        |   |
-                        O   |
-                       /|\\  |
-                       / \\  |
-                            |
-                        =========
-                    """);
+    private static final List<String> HANGMAN_STAGES = loadStagesOrDefault();
+
+    private static List<String> loadStagesOrDefault() {
+        // Try to load from classpath resource "/hangman-stages.txt" where stages
+        // are separated by a line containing only three dashes (---)
+        try (InputStream is = HangmanVisualizer.class.getResourceAsStream("/hangman-stages.txt")) {
+            if (is != null) {
+                String all = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                String[] parts = all.split("\r?\n---\r?\n");
+                return List.copyOf(Arrays.asList(parts));
+            }
+        } catch (IOException ignored) {
+            // fall back to default
+        }
+
+        // Default built-in stages
+        return List.of(
+                // 0 попыток - пустая виселица
+                """
+                            +---+
+                            |   |
+                                |
+                                |
+                                |
+                                |
+                            =========
+                        """,
+                // 1 попытка - голова
+                """
+                            +---+
+                            |   |
+                            O   |
+                                |
+                                |
+                                |
+                            =========
+                        """,
+                // 2 попытки - голова + тело
+                """
+                            +---+
+                            |   |
+                            O   |
+                            |   |
+                                |
+                                |
+                            =========
+                        """,
+                // 3 попытки - голова + тело + левая рука
+                """
+                            +---+
+                            |   |
+                            O   |
+                           /|   |
+                                |
+                                |
+                            =========
+                        """,
+                // 4 попытки - голова + тело + обе руки
+                """
+                            +---+
+                            |   |
+                            O   |
+                           /|\\  |
+                                |
+                                |
+                            =========
+                        """,
+                // 5 попыток - голова + тело + руки + левая нога
+                """
+                            +---+
+                            |   |
+                            O   |
+                           /|\\  |
+                           /    |
+                                |
+                            =========
+                        """,
+                // 6 попыток - полная фигура (поражение)
+                """
+                            +---+
+                            |   |
+                            O   |
+                           /|\\  |
+                           / \\  |
+                                |
+                            =========
+                        """);
+    }
 
     /**
      * Получить визуализацию виселицы для текущего состояния игры
