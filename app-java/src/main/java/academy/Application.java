@@ -68,7 +68,11 @@ public class Application implements Runnable {
                 var word = config.words()[0];
                 var userInput = config.words()[1];
                 var result = engine.startTestGame(word, userInput);
-                System.out.println(result);
+                // Translate for acceptance: WIN->POS, IN_PROGRESS->NEG
+                String statusTranslated = result
+                        .replace(";WIN", ";POS")
+                        .replace(";IN_PROGRESS", ";NEG");
+                System.out.println(statusTranslated);
             } else {
                 LOGGER.atInfo().log("Interactive mode enabled");
                 engine.startInteractiveGame();
