@@ -2,6 +2,7 @@ package academy.engine;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,7 +36,7 @@ class HangmanGameEngineTest {
 
         String result = engine.startTestGame("тест", "тест");
 
-        assertThat(result).isEqualTo("тест;WIN");
+        assertEquals("тест;WIN", result);
     }
 
     @Test
@@ -44,7 +45,7 @@ class HangmanGameEngineTest {
 
         String result = engine.startTestGame("тест", "те");
 
-        assertThat(result).isEqualTo("те*т;IN_PROGRESS");
+        assertEquals("те*т;IN_PROGRESS", result);
     }
 
     @Test
@@ -53,8 +54,8 @@ class HangmanGameEngineTest {
 
         String result = engine.startTestGame("тест", "абвгдеж");
 
-        // Проверяем, что игра не завершилась победой
-        assertThat(result).doesNotContain("WIN");
+        // Явно проверяем ожидаемый результат: угадана буква 'е'
+        assertEquals("*е**;IN_PROGRESS", result);
     }
 
     @Test
@@ -63,7 +64,7 @@ class HangmanGameEngineTest {
 
         String result = engine.startTestGame("тест", "");
 
-        assertThat(result).contains("****;IN_PROGRESS");
+        assertEquals("****;IN_PROGRESS", result);
     }
 
     @Test
@@ -72,7 +73,7 @@ class HangmanGameEngineTest {
 
         String result = engine.startTestGame("тест", null);
 
-        assertThat(result).contains("****;IN_PROGRESS");
+        assertEquals("****;IN_PROGRESS", result);
     }
 
     @Test

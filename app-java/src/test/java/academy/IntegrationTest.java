@@ -1,6 +1,6 @@
 package academy;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -32,7 +32,7 @@ class IntegrationTest {
 
         String result = engine.startTestGame("кот", "кот");
 
-        assertThat(result).isEqualTo("кот;WIN");
+        assertEquals("кот;WIN", result);
     }
 
     @Test
@@ -41,8 +41,8 @@ class IntegrationTest {
 
         String result = engine.startTestGame("кот", "абвгде");
 
-        // Проверяем, что игра не завершилась победой
-        assertThat(result).doesNotContain("WIN");
+        // Явно проверяем ожидаемый результат
+        assertEquals("***;IN_PROGRESS", result);
     }
 
     @Test
@@ -51,7 +51,7 @@ class IntegrationTest {
 
         String result = engine.startTestGame("кот", "ко");
 
-        assertThat(result).isEqualTo("ко*;IN_PROGRESS");
+        assertEquals("ко*;IN_PROGRESS", result);
     }
 
     @Test
@@ -60,7 +60,7 @@ class IntegrationTest {
 
         String result = engine.startTestGame("Кот", "КоТ");
 
-        assertThat(result).isEqualTo("кот;WIN");
+        assertEquals("кот;WIN", result);
     }
 
     @Test
@@ -69,7 +69,7 @@ class IntegrationTest {
 
         String result = engine.startTestGame("кот", "каот");
 
-        assertThat(result).isEqualTo("кот;WIN");
+        assertEquals("кот;WIN", result);
     }
 
     @Test
@@ -78,7 +78,7 @@ class IntegrationTest {
 
         String result = engine.startTestGame("программист", "программист");
 
-        assertThat(result).isEqualTo("программист;WIN");
+        assertEquals("программист;WIN", result);
     }
 
     @Test
@@ -87,7 +87,7 @@ class IntegrationTest {
 
         String result = engine.startTestGame("а", "а");
 
-        assertThat(result).isEqualTo("а;WIN");
+        assertEquals("а;WIN", result);
     }
 
     @Test
@@ -96,7 +96,7 @@ class IntegrationTest {
 
         String result = engine.startTestGame("тест", "");
 
-        assertThat(result).isEqualTo("****;IN_PROGRESS");
+        assertEquals("****;IN_PROGRESS", result);
     }
 
     @Test
@@ -105,7 +105,7 @@ class IntegrationTest {
 
         String result = engine.startTestGame("тест", "123!@#");
 
-        assertThat(result).isEqualTo("****;IN_PROGRESS");
+        assertEquals("****;IN_PROGRESS", result);
     }
 
     @Test
@@ -114,6 +114,6 @@ class IntegrationTest {
 
         String result = engine.startTestGame("мама", "ма");
 
-        assertThat(result).isEqualTo("мама;WIN");
+        assertEquals("мама;WIN", result);
     }
 }
