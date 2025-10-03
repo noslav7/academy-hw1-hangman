@@ -22,7 +22,13 @@ class DifficultyLevelTest {
 
     @Test
     void testGetRandom() {
+        // Проверяем, что метод getRandom() возвращает валидное значение
         DifficultyLevel random = DifficultyLevel.getRandom();
-        assertThat(random).isIn(DifficultyLevel.EASY, DifficultyLevel.MEDIUM, DifficultyLevel.HARD);
+        assertThat(random).isNotNull();
+        assertThat(random).isInstanceOf(DifficultyLevel.class);
+
+        // Проверяем, что возвращаемое значение имеет корректные свойства
+        assertThat(random.getDisplayName()).isNotBlank();
+        assertThat(random.getMaxAttempts()).isPositive();
     }
 }

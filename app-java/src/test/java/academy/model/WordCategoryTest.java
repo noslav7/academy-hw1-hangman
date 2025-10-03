@@ -30,8 +30,13 @@ class WordCategoryTest {
 
     @Test
     void testGetRandom() {
+        // Проверяем, что метод getRandom() возвращает валидное значение
         WordCategory random = WordCategory.getRandom();
-        assertThat(random).isIn(WordCategory.ANIMALS, WordCategory.FOOD, WordCategory.NATURE,
-                WordCategory.PROFESSIONS, WordCategory.TRANSPORT);
+        assertThat(random).isNotNull();
+        assertThat(random).isInstanceOf(WordCategory.class);
+
+        // Проверяем, что возвращаемое значение имеет корректные свойства
+        assertThat(random.getDisplayName()).isNotBlank();
+        assertThat(random.getWords()).isNotEmpty();
     }
 }
