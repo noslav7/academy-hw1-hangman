@@ -84,20 +84,18 @@ class HangmanVisualizerTest {
 
     @Test
     void testFullGameDisplayLose() {
-        for (int i = 0; i < 6; i++) {
-            gameSession.guessLetter((char) ('а' + i));
+        // Делаем 6 неправильных попыток (MEDIUM уровень дает 6 попыток)
+        // Используем буквы, которых нет в слове "тест": а, б, в, г, д, ж
+        char[] wrongLetters = { 'а', 'б', 'в', 'г', 'д', 'ж' };
+        for (char letter : wrongLetters) {
+            gameSession.guessLetter(letter);
         }
 
         String display = HangmanVisualizer.getFullGameDisplay(gameSession);
 
-        // Проверяем, что игра завершилась поражением или в процессе
-        assertThat(display).satisfiesAnyOf(
-                d -> assertThat(d).contains("Игра окончена! Вы проиграли!"),
-                d -> assertThat(d).contains("Введите букву:"));
-        // Проверяем, что отображается загаданное слово или игра продолжается
-        assertThat(display).satisfiesAnyOf(
-                d -> assertThat(d).contains("Загаданное слово: тест"),
-                d -> assertThat(d).contains("Введите букву:"));
+        // После 6 неправильных попыток игра должна завершиться поражением
+        assertThat(display).contains("Игра окончена! Вы проиграли!");
+        assertThat(display).contains("Загаданное слово: тест");
     }
 
     @Test
@@ -120,15 +118,16 @@ class HangmanVisualizerTest {
 
     @Test
     void testSimpleGameStateLose() {
-        for (int i = 0; i < 6; i++) {
-            gameSession.guessLetter((char) ('а' + i));
+        // Делаем 6 неправильных попыток (MEDIUM уровень дает 6 попыток)
+        // Используем буквы, которых нет в слове "тест": а, б, в, г, д, ж
+        char[] wrongLetters = { 'а', 'б', 'в', 'г', 'д', 'ж' };
+        for (char letter : wrongLetters) {
+            gameSession.guessLetter(letter);
         }
 
         String state = HangmanVisualizer.getSimpleGameState(gameSession);
 
-        // Проверяем, что игра завершилась поражением или в процессе
-        assertThat(state).satisfiesAnyOf(
-                s -> assertThat(s).contains("LOSE"),
-                s -> assertThat(s).contains("IN_PROGRESS"));
+        // После 6 неправильных попыток игра должна завершиться поражением
+        assertThat(state).isEqualTo("****;LOSE");
     }
 }
