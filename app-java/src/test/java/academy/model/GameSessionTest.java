@@ -61,13 +61,29 @@ class GameSessionTest {
 
     @Test
     void testGameOverAfterMaxAttempts() {
-        for (int i = 0; i < 6; i++) {
-            gameSession.guessLetter((char) ('а' + i));
+        // Делаем 6 неправильных попыток (MEDIUM уровень дает 6 попыток)
+        // Используем буквы, которых нет в слове "тест": а, б, в, г, д, ж
+        char[] wrongLetters = { 'а', 'б', 'в', 'г', 'д', 'ж' };
+        for (char letter : wrongLetters) {
+            gameSession.guessLetter(letter);
         }
 
-        // Проверяем, что игра завершилась поражением или в процессе
-        assertThat(gameSession.getResult()).isIn(GameResult.LOSE, GameResult.IN_PROGRESS);
-        assertThat(gameSession.getCurrentAttempts()).isEqualTo(5);
+        // После 6 неправильных попыток игра должна завершиться поражением
+        assertThat(gameSession.getResult()).isEqualTo(GameResult.LOSE);
+        assertThat(gameSession.getCurrentAttempts()).isEqualTo(6);
+    }
+
+    @Test
+    void testGameInProgressAfterSomeAttempts() {
+        // Делаем 3 неправильные попытки
+        char[] wrongLetters = { 'а', 'б', 'в' };
+        for (char letter : wrongLetters) {
+            gameSession.guessLetter(letter);
+        }
+
+        // После 3 неправильных попыток игра должна продолжаться
+        assertThat(gameSession.getResult()).isEqualTo(GameResult.IN_PROGRESS);
+        assertThat(gameSession.getCurrentAttempts()).isEqualTo(3);
     }
 
     @Test
