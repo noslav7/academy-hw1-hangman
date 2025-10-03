@@ -9,15 +9,15 @@ import java.util.function.Supplier;
 
 public class AcceptanceTestExample {
 
-        private AcceptanceTestExample() {
-        }
+    private AcceptanceTestExample() {
+    }
 
-        // Используй вызов движка игры вместо хардкода тестовых данных
-        public static final Map<String, List<Map.Entry<Predicate<String>, Supplier<String>>>> TEST_CASES_DUMMY = Map.of(
-                        "волокно", List.of(
-                                        entry("толокно"::equalsIgnoreCase, () -> "*олокно;NEG"),
-                                        entry("барахло"::equalsIgnoreCase, () -> "******о;NEG")),
-                        "окно", List.of(entry("окно"::equalsIgnoreCase, () -> "окно;POS")));
-        public static final List<Map.Entry<Predicate<String>, Supplier<String>>> UNKNOWN_TEST_WORD = List.of(
-                        entry(x -> true, () -> "Unknown word"));
+    // Используй вызов движка игры вместо хардкода тестовых данных
+    public static final Map<String, List<Map.Entry<Predicate<String>, Supplier<String>>>> TEST_CASES_DUMMY = Map.of(
+            "волокно", List.of(
+                    entry("толокно"::equalsIgnoreCase, () -> "*олокно;NEG"),
+                    entry("барахло"::equalsIgnoreCase, () -> "******о;NEG")),
+            "окно", List.of(entry("окно"::equalsIgnoreCase, () -> "окно;POS")));
+    public static final List<Map.Entry<Predicate<String>, Supplier<String>>> UNKNOWN_TEST_WORD = List.of(
+            entry(x -> true, () -> "Unknown word"));
 }
