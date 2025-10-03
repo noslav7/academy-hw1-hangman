@@ -17,11 +17,9 @@ class WordCategoryTest {
 
     @Test
     void testGetWords() {
-        assertThat(WordCategory.ANIMALS.getWords()).isNotEmpty();
-        assertThat(WordCategory.FOOD.getWords()).isNotEmpty();
-        assertThat(WordCategory.NATURE.getWords()).isNotEmpty();
-        assertThat(WordCategory.PROFESSIONS.getWords()).isNotEmpty();
-        assertThat(WordCategory.TRANSPORT.getWords()).isNotEmpty();
+        for (WordCategory category : WordCategory.values()) {
+            assertThat(category.getWords()).isNotEmpty();
+        }
     }
 
     @Test
