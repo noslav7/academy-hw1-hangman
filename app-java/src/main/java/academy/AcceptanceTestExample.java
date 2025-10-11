@@ -16,7 +16,7 @@ public class AcceptanceTestExample {
     public static final Map<String, List<Map.Entry<Predicate<String>, Supplier<String>>>> TEST_CASES_DUMMY = Map.of(
             "волокно", List.of(
                     entry("толокно"::equalsIgnoreCase, () -> "*олокно;NEG"),
-                    entry("барахло"::equalsIgnoreCase, () -> "******о;NEG")),
+                    entry("барахло"::equalsIgnoreCase, () -> "*оло**о;NEG")),
             "окно", List.of(entry("окно"::equalsIgnoreCase, () -> "окно;POS")));
     public static final List<Map.Entry<Predicate<String>, Supplier<String>>> UNKNOWN_TEST_WORD = List.of(
             entry(x -> true, () -> "Unknown word"));
