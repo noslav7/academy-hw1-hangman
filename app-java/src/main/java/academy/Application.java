@@ -74,8 +74,7 @@ public class Application implements Runnable {
                 var session = engine.getCurrentSession();
                 String status = session.getResult() == academy.model.GameResult.WIN ? "POS" : "NEG";
 
-                // Build index-wise mask: same-length compare, show secret char if equal
-                // ignoring case, otherwise '*'
+                // Build mask: show secret char if it appears in user input (case-insensitive)
                 String s = word == null ? "" : word;
                 String u = userInput == null ? "" : userInput;
                 String sLower = s.toLowerCase();
@@ -84,7 +83,7 @@ public class Application implements Runnable {
                 for (int i = 0; i < s.length(); i++) {
                     char sc = s.charAt(i);
                     char sl = sLower.charAt(i);
-                    if (i < uLower.length() && uLower.charAt(i) == sl) {
+                    if (uLower.indexOf(sl) != -1) {
                         masked.append(sc);
                     } else {
                         masked.append('*');
