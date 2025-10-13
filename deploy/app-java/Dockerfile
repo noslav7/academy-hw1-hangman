@@ -7,7 +7,7 @@ WORKDIR /app
 COPY $SRC_DIR/src ./src
 COPY $SRC_DIR/config ./config
 COPY $SRC_DIR/pom.xml .
-RUN mvn -f pom.xml clean package -DskipTests=true -Djacoco.skip=true
+RUN mvn -f pom.xml clean package
 
 FROM $RUNTIME_IMAGE AS runner
 USER 2000

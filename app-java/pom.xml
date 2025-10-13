@@ -18,9 +18,9 @@
         <revision>1.0</revision>
 
         <!-- java and maven versions -->
-        <maven.version>3.8.6</maven.version>
-        <java.release>17</java.release>
-        <jdk.version>17</jdk.version>
+        <maven.version>3.9.11</maven.version>
+        <java.release>24</java.release>
+        <jdk.version>24</jdk.version>
 
         <!-- annotations -->
         <jetbrains-annotations.version>26.0.2</jetbrains-annotations.version>
