@@ -22,7 +22,7 @@ class GameSessionTest {
         assertThat(gameSession.getMaxAttempts()).isEqualTo(6);
         assertThat(gameSession.getCurrentAttempts()).isEqualTo(0);
         assertThat(gameSession.getCurrentWordState()).isEqualTo("****");
-        assertThat(gameSession.getResult()).isEqualTo(GameResult.IN_PROGRESS);
+        assertThat(gameSession.getState()).isEqualTo(GameState.IN_PROGRESS);
         assertThat(gameSession.canMakeAttempt()).isTrue();
     }
 
@@ -34,7 +34,7 @@ class GameSessionTest {
         assertThat(gameSession.getCurrentWordState()).isEqualTo("т**т");
         assertThat(gameSession.getGuessedLetters()).contains('т');
         assertThat(gameSession.getCurrentAttempts()).isEqualTo(0);
-        assertThat(gameSession.getResult()).isEqualTo(GameResult.IN_PROGRESS);
+        assertThat(gameSession.getState()).isEqualTo(GameState.IN_PROGRESS);
     }
 
     @Test
@@ -45,7 +45,7 @@ class GameSessionTest {
         assertThat(gameSession.getCurrentWordState()).isEqualTo("****");
         assertThat(gameSession.getWrongLetters()).contains('а');
         assertThat(gameSession.getCurrentAttempts()).isEqualTo(1);
-        assertThat(gameSession.getResult()).isEqualTo(GameResult.IN_PROGRESS);
+        assertThat(gameSession.getState()).isEqualTo(GameState.IN_PROGRESS);
     }
 
     @Test
@@ -56,7 +56,7 @@ class GameSessionTest {
 
         assertThat(gameSession.getCurrentWordState()).isEqualTo("тест");
         assertThat(gameSession.isWordGuessed()).isTrue();
-        assertThat(gameSession.getResult()).isEqualTo(GameResult.WIN);
+        assertThat(gameSession.getState()).isEqualTo(GameState.WIN);
     }
 
     @Test
@@ -69,7 +69,7 @@ class GameSessionTest {
         }
 
         // После 6 неправильных попыток игра должна завершиться поражением
-        assertThat(gameSession.getResult()).isEqualTo(GameResult.LOSE);
+        assertThat(gameSession.getState()).isEqualTo(GameState.LOSE);
         assertThat(gameSession.getCurrentAttempts()).isEqualTo(6);
     }
 
@@ -82,7 +82,7 @@ class GameSessionTest {
         }
 
         // После 3 неправильных попыток игра должна продолжаться
-        assertThat(gameSession.getResult()).isEqualTo(GameResult.IN_PROGRESS);
+        assertThat(gameSession.getState()).isEqualTo(GameState.IN_PROGRESS);
         assertThat(gameSession.getCurrentAttempts()).isEqualTo(3);
     }
 

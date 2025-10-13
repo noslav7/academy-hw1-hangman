@@ -74,7 +74,7 @@ public class HangmanGameEngine {
             }
 
             // Проверка окончания игры
-            if (currentSession.getResult().isGameOver()) {
+            if (currentSession.getState().isGameOver()) {
                 break;
             }
         }

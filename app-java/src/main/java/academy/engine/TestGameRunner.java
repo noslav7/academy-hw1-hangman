@@ -48,9 +48,9 @@ public class TestGameRunner {
         // Определяем результат игры: победа, если угаданы все буквы, иначе игра
         // продолжается
         if (engine.currentSession.isWordGuessed()) {
-            engine.currentSession.setResult(academy.model.GameResult.WIN);
+            engine.currentSession.setState(academy.model.GameState.WIN);
         } else {
-            engine.currentSession.setResult(academy.model.GameResult.IN_PROGRESS);
+            engine.currentSession.setState(academy.model.GameState.IN_PROGRESS);
         }
 
         // Возврат результата

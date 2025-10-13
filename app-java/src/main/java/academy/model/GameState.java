@@ -1,16 +1,16 @@
 package academy.model;
 
 /**
- * Результат игры "Виселица"
+ * Состояние игры "Виселица"
  */
-public enum GameResult {
+public enum GameState {
     WIN("Поздравляем! Вы выиграли!"),
     LOSE("Игра окончена! Вы проиграли!"),
     IN_PROGRESS("Игра продолжается");
 
     private final String message;
 
-    GameResult(String message) {
+    GameState(String message) {
         this.message = message;
     }
 

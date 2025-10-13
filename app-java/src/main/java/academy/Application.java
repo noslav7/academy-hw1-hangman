@@ -72,7 +72,7 @@ public class Application implements Runnable {
 
                 // Determine POS/NEG from session result
                 var session = engine.getCurrentSession();
-                String status = session.getResult() == academy.model.GameResult.WIN ? "POS" : "NEG";
+                String status = session.getState() == academy.model.GameState.WIN ? "POS" : "NEG";
 
                 // Build mask: show secret char if it appears in user input (case-insensitive)
                 String s = word == null ? "" : word;

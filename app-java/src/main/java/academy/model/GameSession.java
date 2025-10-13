@@ -15,7 +15,7 @@ public class GameSession {
     private int currentAttempts;
     private final Set<Character> guessedLetters;
     private final Set<Character> wrongLetters;
-    private GameResult result;
+    private GameState state;
     private boolean hintUsed;
 
     public GameSession(String secretWord, DifficultyLevel difficulty, WordCategory category) {
@@ -27,7 +27,7 @@ public class GameSession {
         this.currentAttempts = 0;
         this.guessedLetters = new LinkedHashSet<>();
         this.wrongLetters = new LinkedHashSet<>();
-        this.result = GameResult.IN_PROGRESS;
+        this.state = GameState.IN_PROGRESS;
         this.hintUsed = false;
     }
 
@@ -40,7 +40,7 @@ public class GameSession {
         this.currentAttempts = 0;
         this.guessedLetters = new LinkedHashSet<>();
         this.wrongLetters = new LinkedHashSet<>();
-        this.result = GameResult.IN_PROGRESS;
+        this.state = GameState.IN_PROGRESS;
         this.hintUsed = false;
     }
 
@@ -88,12 +88,12 @@ public class GameSession {
         return wrongLetters;
     }
 
-    public GameResult getResult() {
-        return result;
+    public GameState getState() {
+        return state;
     }
 
-    public void setResult(GameResult result) {
-        this.result = result;
+    public void setState(GameState state) {
+        this.state = state;
     }
 
     /**
@@ -140,14 +140,14 @@ public class GameSession {
         if (secretWord.contains(String.valueOf(lowerLetter))) {
             guessedLetters.add(lowerLetter);
             if (isWordGuessed()) {
-                result = GameResult.WIN;
+                state = GameState.WIN;
             }
             return true;
         } else {
             wrongLetters.add(lowerLetter);
             currentAttempts++;
             if (currentAttempts >= maxAttempts) {
-                result = GameResult.LOSE;
+                state = GameState.LOSE;
             }
             return false;
         }
@@ -157,7 +157,7 @@ public class GameSession {
      * Проверить, можно ли сделать еще попытку
      */
     public boolean canMakeAttempt() {
-        return result == GameResult.IN_PROGRESS && currentAttempts < maxAttempts;
+        return state == GameState.IN_PROGRESS && currentAttempts < maxAttempts;
     }
 
     /**

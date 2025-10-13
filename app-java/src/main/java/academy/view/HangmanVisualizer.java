@@ -151,9 +151,9 @@ public class HangmanVisualizer {
         }
 
         // Результат игры
-        if (session.getResult().isGameOver()) {
-            display.append("=== ").append(session.getResult().getMessage()).append(" ===\n");
-            if (session.getResult() == academy.model.GameResult.LOSE) {
+        if (session.getState().isGameOver()) {
+            display.append("=== ").append(session.getState().getMessage()).append(" ===\n");
+            if (session.getState() == academy.model.GameState.LOSE) {
                 display.append("Загаданное слово: ").append(session.getSecretWord()).append("\n");
             }
         } else {
@@ -168,9 +168,9 @@ public class HangmanVisualizer {
      */
     public static String getSimpleGameState(GameSession session) {
         String status;
-        if (session.getResult() == academy.model.GameResult.WIN) {
+        if (session.getState() == academy.model.GameState.WIN) {
             status = "WIN";
-        } else if (session.getResult() == academy.model.GameResult.LOSE) {
+        } else if (session.getState() == academy.model.GameState.LOSE) {
             status = "LOSE";
         } else {
             status = "IN_PROGRESS";
@@ -186,9 +186,9 @@ public class HangmanVisualizer {
         String masked = session.getCurrentWordState();
 
         String status;
-        if (session.getResult() == academy.model.GameResult.WIN) {
+        if (session.getState() == academy.model.GameState.WIN) {
             status = "WIN";
-        } else if (session.getResult() == academy.model.GameResult.LOSE) {
+        } else if (session.getState() == academy.model.GameState.LOSE) {
             status = "NEG";
         } else {
             status = "IN_PROGRESS";
