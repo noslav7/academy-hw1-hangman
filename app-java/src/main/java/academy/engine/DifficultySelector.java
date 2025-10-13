@@ -28,33 +28,12 @@ public class DifficultySelector {
         }
         System.out.println("0. Случайная сложность");
 
-        while (true) {
-            try {
-                System.out.print("Ваш выбор: ");
-                if (!scanner.hasNextLine()) {
-                    // EOF: по умолчанию выбираем случайную сложность
-                    return DifficultyLevel.getRandom();
-                }
-                String input;
-                try {
-                    input = scanner.nextLine().trim();
-                } catch (java.util.NoSuchElementException eof) {
-                    return DifficultyLevel.getRandom();
-                }
-
-                if (input.equals("0")) {
-                    return DifficultyLevel.getRandom();
-                }
-
-                int choice = Integer.parseInt(input);
-                if (choice >= 1 && choice <= difficulties.length) {
-                    return difficulties[choice - 1];
-                } else {
-                    System.out.println("Пожалуйста, выберите число от 0 до " + difficulties.length);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Пожалуйста, введите число");
-            }
-        }
+        return MenuSelector.selectFromMenu(
+                scanner,
+                "Ваш выбор: ",
+                difficulties.length,
+                DifficultyLevel::getRandom,
+                idx -> difficulties[idx - 1],
+                "");
     }
 }
