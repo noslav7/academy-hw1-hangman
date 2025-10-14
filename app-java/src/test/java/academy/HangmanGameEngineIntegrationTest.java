@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import academy.engine.HangmanGameEngine;
 
-class IntegrationTest {
+class HangmanGameEngineIntegrationTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
