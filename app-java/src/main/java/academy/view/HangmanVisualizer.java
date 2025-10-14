@@ -167,15 +167,7 @@ public class HangmanVisualizer {
      * Получить простое отображение состояния игры (для тестового режима)
      */
     public static String getSimpleGameState(GameSession session) {
-        String status;
-        if (session.getState() == academy.model.GameState.WIN) {
-            status = "WIN";
-        } else if (session.getState() == academy.model.GameState.LOSE) {
-            status = "LOSE";
-        } else {
-            status = "IN_PROGRESS";
-        }
-        return session.getCurrentWordState() + ";" + status;
+        return buildStateLine(session, "LOSE");
     }
 
     /**
@@ -183,17 +175,19 @@ public class HangmanVisualizer {
      */
     public static String getTestModeResult(String secretWord, String userInput, GameSession session) {
         // Для юнит-тестов используем текущее состояние слова из сессии
-        String masked = session.getCurrentWordState();
+        return buildStateLine(session, "NEG");
+    }
 
+    private static String buildStateLine(GameSession session, String loseLabel) {
+        String masked = session.getCurrentWordState();
         String status;
         if (session.getState() == academy.model.GameState.WIN) {
             status = "WIN";
         } else if (session.getState() == academy.model.GameState.LOSE) {
-            status = "NEG";
+            status = loseLabel;
         } else {
             status = "IN_PROGRESS";
         }
-
         return masked + ";" + status;
     }
 }
